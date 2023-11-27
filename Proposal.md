@@ -22,3 +22,20 @@ This document proposes the necessary steps to incorporate an evaluation step for
 - [ ] Develop interfaces for evaluation submission.
 - [ ] Code for assigning evaluators to projects.
 - [ ] Implement functions to calculate final scores and determine project outcomes.
+
+### Code Structure for Evaluation Step Implementation
+
+#### Evaluation Criteria Setup
+```python
+def establish_evaluation_criteria():
+    # Code to establish and store evaluation criteria
+
+def assign_evaluators_to_projects():
+    # Code to assign advisors and faculty to projects
+
+def manage_evaluation_table(db):
+    # Code to create and update the 'Evaluation' table
+
+class Evaluator:
+    def record_evaluation(self, project_id, evaluation_details):
+        # Code for an evaluator to record their evaluation

@@ -2,11 +2,17 @@
 # TODO List for Final Project
 
 ## Database Initialization
-- [ ] Initialize 'Person' table with attributes: ID, First, Last, Type.
-- [ ] Initialize 'Login' table with attributes: ID, Username, Password, Role.
-- [ ] Initialize 'Project' table with attributes: ProjectID, Title, Lead, Member1, Member2, Advisor, Status.
-- [ ] Initialize 'Advisor_pending_request' table with attributes: ProjectID, To-be Advisor ID, Response.
-- [ ] Initialize 'Member_pending_request' table with attributes: ProjectID, To-be Member ID, Response.
+[ ] Generalize the CSV file reading functionality:
+    - Modify the existing CSV reading code to handle any CSV file.
+    - Ensure dynamic reading of different CSV files and storing data in a list of dictionaries.
+- [ ] Develop a `Database` class:
+    - Implement the class to manage multiple tables (represented by CSV files).
+    - Include methods to add new tables and retrieve existing tables.
+- [ ] Create a `Table` class:
+    - Design the class to encapsulate data handling for a single CSV file.
+    - Implement methods for reading CSV data, adding new rows (insert operation), and updating existing rows (update operation).
+    - Include functionality to save modified data back to the CSV file.
+
 
 ## User Role Functions
 ### Student
@@ -45,3 +51,68 @@
 
 ## Additional Evaluation Step
 - [ ] Outline the evaluation process involving advisors and faculty in Proposal.md.
+
+### Code Structure for Database Initialization and User Role Functionalities
+
+#### User Role Functionalities
+```python
+class Student:
+    def view_invitations(self):
+        # Code to view invitations
+
+    def accept_invitation(self, invitation_id):
+        # Code to accept an invitation
+
+    def modify_project_details(self, project_id, new_details):
+        # Code to modify project details
+
+class LeadStudent(Student):
+    def create_project(self, project_details):
+        # Code to create a project
+
+    def find_and_invite_members(self, member_ids):
+        # Code to invite members
+
+    def submit_final_report(self, report):
+        # Code to submit the final project report
+```
+
+##### Admin Role
+```python
+class Admin:
+    def manage_database(self):
+        # Code for managing the overall database
+
+    def update_table(self, table_name, data):
+        # Code to update specific tables in the database
+```
+
+##### Member Student Role
+```python
+class MemberStudent(Student):
+    def view_project_details(self, project_id):
+        # Code for a member student to view their project details
+
+    def edit_project_details(self, project_id, new_details):
+        # Code for a member student to edit their project details
+```
+
+##### Faculty Role (Non-Advisor)
+```python
+class Faculty:
+    def view_supervision_requests(self):
+        # Code for faculty to view requests for supervision
+
+    def respond_to_supervision_request(self, request_id, response):
+        # Code for faculty to respond to supervision requests
+```
+
+##### Advising Faculty Role
+```python
+class AdvisingFaculty(Faculty):
+    def approve_project(self, project_id):
+        # Code for an advising faculty to approve a project
+
+    def evaluate_project(self, project_id, evaluation_criteria):
+        # Code for an advising faculty to evaluate a project
+```
