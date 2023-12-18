@@ -1,61 +1,95 @@
-# import database module
+import database
 
-# define a funcion called initializing
-
+# Function Definitions
 def initializing():
-    pass
-
-# here are things to do in this function:
-
-    # create an object to read all csv files that will serve as a persistent state for this program
-
-    # create all the corresponding tables for those csv files
-
-    # see the guide how many tables are needed
-
-    # add all these tables to the database
-
-
-# define a funcion called login
+    db = database.Database()
+    db.add_table('login', database.Table('/mnt/data/login.csv'))
+    db.add_table('persons', database.Table('/mnt/data/persons.csv'))
+    db.add_table('projects', database.Table('projects.csv'))  # Assuming this file exists
+    db.add_table('invitations', database.Table('invitations.csv'))  # Assuming this file exists
+    db.add_table('supervision_requests', database.Table('supervision_requests.csv'))  # Assuming this file exists
+    return db
 
 def login():
-    pass
+    db = initializing()
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+    login_table = db.get_table('login')
+    for user in login_table.data:
+        if user['username'] == username and user['password'] == password:
+            return [user['id'], user['role']]
+    return None
 
-# here are things to do in this function:
-   # add code that performs a login task
-        # ask a user for a username and password
-        # returns [ID, role] if valid, otherwise returning None
+def exit(db):
+    db.save_all()
 
-# define a function called exit
-def exit():
-    pass
+# User and Role Class Definitions
+class User:
+    def __init__(self, user_id, db):
+        self.user_id = user_id
+        self.db = db
 
-# here are things to do in this function:
-   # write out all the tables that have been modified to the corresponding csv files
-   # By now, you know how to read in a csv file and transform it into a list of dictionaries. For this project, you also need to know how to do the reverse, i.e., writing out to a csv file given a list of dictionaries. See the link below for a tutorial on how to do this:
-   
-   # https://www.pythonforbeginners.com/basics/list-of-dictionaries-to-csv-in-python
+class Student(User):
+    def create_project(self, project_info):
+        print("Creating project...")
+        # Implement project creation logic
+
+    def view_invitations(self):
+        print("Viewing invitations...")
+        # Implement logic to view invitations
+
+    def accept_invitation(self, invitation_id):
+        print(f"Accepting invitation {invitation_id}...")
+        # Implement logic to accept invitation
+
+class LeadStudent(Student):
+    def modify_project_info(self, project_id, new_info):
+        print(f"Modifying project {project_id} info...")
+        # Implement logic to modify project info
+
+class Faculty(User):
+    def view_supervision_requests(self):
+        print("Viewing supervision requests...")
+        # Implement logic to view supervision requests
+
+    def respond_to_supervision_request(self, request_id, response):
+        print(f"Responding to supervision request {request_id}...")
+        # Implement logic to respond to supervision request
+
+class AdvisingFaculty(Faculty):
+    def evaluate_project(self, project_id, evaluation_criteria):
+        print(f"Evaluating project {project_id}...")
+        # Implement logic to evaluate project
+
+class Admin(User):
+    def update_table(self, table_name, data):
+        print(f"Updating table {table_name}...")
+        # Implement logic to update a table
 
 
-# make calls to the initializing and login functions defined above
-
-initializing()
+# Main Program Execution
 val = login()
 
-# based on the return value for login, activate the code that performs activities according to the role defined for that person_id
+if val:
+    user_id, role = val
+    db = initializing()
+    if role == 'Admin':
+        admin = Admin(user_id, db)
+        admin.update_table("projects", {"new": "data"})
+    elif role == 'Student':
+        student = Student(user_id, db)
+        student.create_project({"name": "New Project"})
+    elif role == 'Lead':
+        lead = LeadStudent(user_id, db)
+        lead.modify_project_info("proj1", {"new_info": "updated info"})
+    elif role == 'Faculty':
+        faculty = Faculty(user_id, db)
+        faculty.view_supervision_requests()
+    elif role == 'Advisor':
+        advisor = AdvisingFaculty(user_id, db)
+        advisor.evaluate_project("proj2", "Excellent")
+else:
+    print("Login failed.")
 
-# if val[1] = 'admin':
-    # see and do admin related activities
-# elif val[1] = 'student':
-    # see and do student related activities
-# elif val[1] = 'member':
-    # see and do member related activities
-# elif val[1] = 'lead':
-    # see and do lead related activities
-# elif val[1] = 'faculty':
-    # see and do faculty related activities
-# elif val[1] = 'advisor':
-    # see and do advisor related activities
-
-# once everyhthing is done, make a call to the exit function
-exit()
+db = initializing()
+exit(db)
