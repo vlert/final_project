@@ -15,17 +15,26 @@ To run this project:
 
 ## Roles and Actions Table
 
-| Role   | Action                             | Method          | Class        | Completion Percentage |
-|--------|------------------------------------|-----------------|--------------|-----------------------|
-| Admin | Update a row in a table | `update_row` | `Table` | 100% |
-| Admin | Append (insert) a row into a table | `add_row` | `Table` | 100% |
-| Admin | Add Database | `add_table` | `Database` | 100% |
-| Admin | Update Table | `update` | `Table` | 100% |
-| Lead | Request a member | `send_request` | `Student` | 90% |
+| Role    | Action                   | Method          | Class        | Completion Percentage |
+|---------|--------------------------|-----------------|--------------|-----------------------|
+| Admin   | Update a row in a table  | `update_row`    | `Table`      | 100%                  |
+| Admin   | Append a row to a table  | `add_row`       | `Table`      | 100%                  |
+| Student | View invitations         | `view_invitations` | `Student` | 90%                   |
+| Lead    | Request a member         | `send_request`  | `Student`    | 90%                   |
+| Faculty | View supervision requests| `view_requests` | `Faculty`    | 90%                   |
+| Advisor | Evaluate projects        | `evaluate`      | `Advisor`    | 90%                   |
 
 *Note: The completion percentages are placeholders and should be updated to reflect actual progress.*
 
 ## Missing Features and Outstanding Bugs
 
-- Missing features or known bugs can be listed here with a brief description.
+### Missing Features
+
+- **Lead Role**: The feature to automatically notify leads when a member accepts a project invitation is not yet implemented.
+- **Faculty Role**: The interface for faculty to provide detailed feedback on project proposals is still in development.
+
+### Known Bugs
+
+- **Login System**: Occasional timeout during high server load which may require users to attempt logging in again.
+- **Project Update**: Intermittent issue where the project details do not update immediately in the CSV when using the `update_row` method.
 
